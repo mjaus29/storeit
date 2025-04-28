@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from "@/lib/actions/user.actions";
+import OTPModal from "@/components/OTPModal";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -64,24 +65,48 @@ const AuthForm = ({ type }: { type: FormType }) => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
-        <h1 className="form-title">
-          {type === "sign-in" ? "Sign In" : "Sign Up"}
-        </h1>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
+          <h1 className="form-title">
+            {type === "sign-in" ? "Sign In" : "Sign Up"}
+          </h1>
 
-        {type === "sign-up" && (
+          {type === "sign-up" && (
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="shad-form-item">
+                    <FormLabel className="shad-form-label">Full Name</FormLabel>
+
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your full name"
+                        className="shad-input"
+                        {...field}
+                      />
+                    </FormControl>
+                  </div>
+
+                  <FormMessage className="shad-form-message" />
+                </FormItem>
+              )}
+            />
+          )}
+
           <FormField
             control={form.control}
-            name="fullName"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <div className="shad-form-item">
-                  <FormLabel className="shad-form-label">Full Name</FormLabel>
+                  <FormLabel className="shad-form-label">Email</FormLabel>
 
                   <FormControl>
                     <Input
-                      placeholder="Enter your full name"
+                      placeholder="Enter your email"
                       className="shad-input"
                       {...field}
                     />
@@ -92,66 +117,48 @@ const AuthForm = ({ type }: { type: FormType }) => {
               </FormItem>
             )}
           />
-        )}
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <div className="shad-form-item">
-                <FormLabel className="shad-form-label">Email</FormLabel>
-
-                <FormControl>
-                  <Input
-                    placeholder="Enter your email"
-                    className="shad-input"
-                    {...field}
-                  />
-                </FormControl>
-              </div>
-
-              <FormMessage className="shad-form-message" />
-            </FormItem>
-          )}
-        />
-
-        <Button
-          type="submit"
-          className="form-submit-button"
-          disabled={isLoading}
-        >
-          {type === "sign-in" ? "Sign In" : "Sign Up"}
-
-          {isLoading && (
-            <Image
-              src="/assets/icons/loader.svg"
-              alt="loader"
-              width={24}
-              height={24}
-              className="ml-2 animate-spin"
-            />
-          )}
-        </Button>
-
-        {errorMessage && <p className="error-mesage">*{errorMessage}</p>}
-
-        <div className="body-2 flex justify-center">
-          <p className="text-light-100">
-            {type === "sign-in"
-              ? "Don't have an account?"
-              : "Already have an account?"}
-          </p>
-
-          <Link
-            href={type === "sign-in" ? "/sign-up" : "/sign-in"}
-            className="ml-1 font-medium text-brand"
+          <Button
+            type="submit"
+            className="form-submit-button"
+            disabled={isLoading}
           >
-            {type === "sign-in" ? "Sign Up" : "Sign In"}
-          </Link>
-        </div>
-      </form>
-    </Form>
+            {type === "sign-in" ? "Sign In" : "Sign Up"}
+
+            {isLoading && (
+              <Image
+                src="/assets/icons/loader.svg"
+                alt="loader"
+                width={24}
+                height={24}
+                className="ml-2 animate-spin"
+              />
+            )}
+          </Button>
+
+          {errorMessage && <p className="error-mesage">*{errorMessage}</p>}
+
+          <div className="body-2 flex justify-center">
+            <p className="text-light-100">
+              {type === "sign-in"
+                ? "Don't have an account?"
+                : "Already have an account?"}
+            </p>
+
+            <Link
+              href={type === "sign-in" ? "/sign-up" : "/sign-in"}
+              className="ml-1 font-medium text-brand"
+            >
+              {type === "sign-in" ? "Sign Up" : "Sign In"}
+            </Link>
+          </div>
+        </form>
+      </Form>
+
+      {accountId && (
+        <OTPModal email={form.getValues("email")} accountId={accountId} />
+      )}
+    </>
   );
 };
 export default AuthForm;
