@@ -227,3 +227,23 @@ export async function getTotalSpaceUsed() {
     handleError(error, "Error calculating total space used:, ");
   }
 }
+
+export async function getTotalSpaceSearched({
+  files,
+}: {
+  files: {
+    documents: Models.Document[];
+  };
+}) {
+  try {
+    let totalUsed = 0;
+
+    files.documents.forEach((file: Models.Document) => {
+      totalUsed += file.size;
+    });
+
+    return (totalUsed / (1024 * 1024)).toFixed(2);
+  } catch (error) {
+    handleError(error, "Error calculating total space used:, ");
+  }
+}
