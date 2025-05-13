@@ -105,20 +105,6 @@ We need to install or make sure that these tools are pre-installed on your machi
    npm test
    ```
 
-### 🔒 ENV file
-
-This project requires the following environment variables for configuration:
-
-```
-NEXT_PUBLIC_APPWRITE_ENDPOINT - Appwrite API endpoint
-NEXT_PUBLIC_APPWRITE_PROJECT - Appwrite project ID
-NEXT_PUBLIC_APPWRITE_DATABASE - Appwrite database ID
-NEXT_PUBLIC_APPWRITE_USERS_COLLECTION - Appwrite users collection ID
-NEXT_PUBLIC_APPWRITE_FILES_COLLECTION - Appwrite files collection ID
-NEXT_PUBLIC_APPWRITE_BUCKET - Appwrite storage bucket ID
-NEXT_APPWRITE_KEY - Appwrite API key
-```
-
 ## ⚒️ How to Contribute
 
 Want to contribute? Great!
